@@ -18,7 +18,11 @@ $jumlahpengguna = $pengguna->num_rows;
             <div class="col-lg-12 col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <img width="100%" src="../home/img/bg1.jpg">
+                        <?php if ($_SESSION['admin']['level'] == 'Admin') { ?>
+                            <img width="100%" src="../home/img/bg1.jpg">
+                        <?php } else { ?>
+                            <img width="100%" src="../home/img/timeline.jpeg">
+                        <?php } ?>
                     </div>
                 </div>
             </div>
