@@ -33,7 +33,7 @@
                                         <input type="text" name="keyword" value="<?= $keyword ?>" placeholder="Masukkan Kata Pencarian" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-span-3 col-3">
+                                <div class="col-md-3 col-3">
                                     <button type="submit" name="cari" value="cari" class="btn btn-primary btn-block">Cari</button>
                                 </div>
                             </div>
@@ -51,27 +51,27 @@
                     }
                     while ($data = $ambil->fetch_assoc()) { ?>
                         <div class="col-12 col-md-4">
-                            <div class="card">
+                            <div class="card mb-4">
                                 <center>
                                     <img src="../foto/<?= $data['file'] ?>" width="300px" height="300px" alt="...">
                                 </center>
                                 <div class="card-body">
                                     <h5 class="card-title"><?= $data['namauniversitas'] ?> <span class="text-danger float-right">#<?= $data['rangkingdunia'] ?></span></h5>
                                     <p class="card-text text-justify"><?= potong($data['deskripsi'], 200) ?>...</p>
-                                    <div class="row align-content-end">
-                                        <div class="col-12 col-md-6 mb-3">
+                                    <div class="row">
+                                        <div class="col-6">
                                             <?php
                                             $id = $_SESSION['admin']['id'];
                                             $ambilfavorit = $koneksi->query("SELECT * FROM favorit WHERE id='$id' AND iduniversitas='$data[iduniversitas]'");
                                             $cekfavorit = $ambilfavorit->num_rows;
                                             if ($cekfavorit >= 1) {
                                             ?>
-                                                <a href="index.php?halaman=universitasfavorithapus&id=<?php echo $data['iduniversitas']; ?>&page=favoritdaftar" class="btn btn-danger">Hapus dari Favorit <i class="fa fa-times"></i></a>
+                                                <a href="index.php?halaman=universitasfavorithapus&id=<?= $data['iduniversitas']; ?>&page=favoritdaftar" class="btn btn-danger">Hapus dari Favorit <i class="fa fa-times"></i></a>
                                             <?php } else { ?>
-                                                <a href="index.php?halaman=universitasfavorit&id=<?php echo $data['iduniversitas']; ?>" class="btn btn-success">Simpan ke Favorit <i class="fa fa-heart"></i></a>
+                                                <a href="index.php?halaman=universitasfavorit&id=<?= $data['iduniversitas']; ?>" class="btn btn-success">Simpan ke Favorit <i class="fa fa-heart"></i></a>
                                             <?php } ?>
                                         </div>
-                                        <div class="col-12 col-md-6 mb-3">
+                                        <div class="col-6">
                                             <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#detail<?= $nomor ?>">Selengkapnya <i class="fa fa-arrow-right"></i></a>
                                         </div>
                                     </div>
@@ -137,12 +137,13 @@
                                     </div>
                                 </div>
                             </div>
-                        <?php
+                        </div>
+                    <?php
                         $nomor++;
                     }
-                        ?>
-                        </div>
+                    ?>
                 </div>
             </div>
         </div>
     </div>
+</div>
