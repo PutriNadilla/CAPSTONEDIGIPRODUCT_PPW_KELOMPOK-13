@@ -73,25 +73,52 @@
 		</div>
 	</div>
 </div>
+
 <?php
 if (isset($_POST['tambah'])) {
-	$namafile = $_FILES['file']['name'];
-	$lokasifile = $_FILES['file']['tmp_name'];
-	move_uploaded_file($lokasifile, "../foto/" . $namafile);
-	$rangkingdunia = $_POST["rangkingdunia"];
-	$namauniversitas = $_POST["namauniversitas"];
-	$negara = $_POST["negara"];
-	$rangkingnasional = $_POST["rangkingnasional"];
-	$kualitaspendidikan = $_POST["kualitaspendidikan"];
-	$pegawaialumni = $_POST["pegawaialumni"];
-	$kualitasfakultas = $_POST["kualitasfakultas"];
-	$kualitasfakultas = $_POST["kualitasfakultas"];
-	$publikasi = $_POST["publikasi"];
-	$skor = $_POST["skor"];
-	$deskripsi = $_POST["deskripsi"];
-	$koneksi->query("INSERT INTO universitas(rangkingdunia, namauniversitas, negara, rangkingnasional, kualitaspendidikan, pegawaialumni, kualitasfakultas, publikasi, skor, file, deskripsi)
+    if (empty($_POST["namauniversitas"]) || empty($_POST["rangkingdunia"]) || empty($_POST["rangkingnasional"]) || empty($_POST["negara"]) || empty($_POST["kualitaspendidikan"]) || empty($_POST["pegawaialumni"]) || empty($_POST["kualitasfakultas"]) || empty($_POST["publikasi"]) || empty($_POST["skor"]) || empty($_POST["deskripsi"]) || empty($_FILES['file']['name'])) {
+        echo "<script>alert('Harap lengkapi semua data terlebih dahulu.'); window.location ='index.php?halaman=universitastambah';</script>";
+        exit; 
+    }
+
+    $namauniversitas = $_POST["namauniversitas"];
+    $query_cek_nama = $koneksi->query("SELECT * FROM universitas WHERE namauniversitas = '$namauniversitas'");
+    if ($query_cek_nama->num_rows > 0) {
+        echo "<script>alert('Nama universitas sudah ada. Silakan coba lagi dengan nama universitas yang berbeda.'); window.location ='index.php?halaman=universitastambah';</script>";
+        exit; 
+    }
+
+    $rangkingdunia = $_POST["rangkingdunia"];
+    $query_cek_dunia = $koneksi->query("SELECT * FROM universitas WHERE rangkingdunia = '$rangkingdunia'");
+    if ($query_cek_dunia->num_rows > 0) {
+        echo "<script>alert('Rangking dunia sudah ada. Silakan coba lagi dengan rangking dunia yang berbeda.'); window.location ='index.php?halaman=universitastambah';</script>";
+        exit; 
+    }
+
+    $rangkingnasional = $_POST["rangkingnasional"];
+    $query_cek_nasional = $koneksi->query("SELECT * FROM universitas WHERE rangkingnasional = '$rangkingnasional'");
+    if ($query_cek_nasional->num_rows > 0) {
+        echo "<script>alert('Rangking nasional sudah ada. Silakan coba lagi dengan rangking nasional yang berbeda.'); window.location ='index.php?halaman=universitastambah';</script>";
+        exit; 
+    }
+
+    echo "<script>alert('Data Berhasil Ditambah'); window.location ='index.php?halaman=universitastambah';</script>";
+
+    $namafile = $_FILES['file']['name'];
+    $lokasifile = $_FILES['file']['tmp_name'];
+    move_uploaded_file($lokasifile, "../foto/" . $namafile);
+    $negara = $_POST["negara"];
+    $kualitaspendidikan = $_POST["kualitaspendidikan"];
+    $pegawaialumni = $_POST["pegawaialumni"];
+    $kualitasfakultas = $_POST["kualitasfakultas"];
+    $publikasi = $_POST["publikasi"];
+    $skor = $_POST["skor"];
+    $deskripsi = $_POST["deskripsi"];
+
+    $koneksi->query("INSERT INTO universitas(rangkingdunia, namauniversitas, negara, rangkingnasional, kualitaspendidikan, pegawaialumni, kualitasfakultas, publikasi, skor, file, deskripsi)
     VALUES ('$rangkingdunia', '$namauniversitas', '$negara', '$rangkingnasional', '$kualitaspendidikan', '$pegawaialumni', '$kualitasfakultas', '$publikasi', '$skor', '$namafile', '$deskripsi')") or die(mysqli_error($koneksi));
-	echo "<script> alert('Data Berhasil Di Tambah');</script>";
-	echo "<script> location ='index.php?halaman=universitasdaftar';</script>";
+
+    echo "<script>alert('Data Berhasil Ditambah');</script>";
+    echo "<script>location ='index.php?halaman=universitasdaftar';</script>";
 }
 ?>
